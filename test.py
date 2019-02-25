@@ -44,11 +44,11 @@ if __name__ == '__main__':
     elif autoenc_type == 'cae1':
         x_train = np.atleast_3d(x_train)
         x_test = np.atleast_3d(x_test)
-        autoenc = ConvolutionalAutoencoder1D([(16, 2), (32, 1)], h*w)
+        autoenc = ConvolutionalAutoencoder1D([(16, 2), (8, 1)], h*w)
     elif autoenc_type == 'cae2':
         x_train = np.reshape(x_train, (len(x_train), h, w, c), order="F")
         x_test = np.reshape(x_test, (len(x_test), h, w, c), order="F")
-        autoenc = ConvolutionalAutoencoder2D([(16, 4, 4), (32, 4, 4)], h, w, c)
+        autoenc = ConvolutionalAutoencoder2D([(16, 4, 4), (8, 4, 4)], h, w, c)
     else:
         raise Exception('Unknown autoencoder type: ' + str(autoenc_type))
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
     # display final convolution
     fig = plt.figure()
-    n_channels = 16
+    n_channels = 8
     for i in range(0, n_channels):
         ax = plt.subplot(1, n_channels, i+1)
         plt.imshow(encoded_imgs[0][:,:,i]) # show channel
