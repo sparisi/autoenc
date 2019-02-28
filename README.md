@@ -6,3 +6,7 @@ Data stores
 * `IG`: same images converted to grayscale,
 * `h` and `w`: height and widht (484x644),
 * `I2`, `IG2`, `w2` and `h2`: same as above but images are scaled and cropped to (64x64).
+
+<p align="center"> 
+    <img src="https://github.com/sparisi/ae_keras/blob/master/example.png" alt="alternate text">
+</p>
