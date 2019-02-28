@@ -2,8 +2,8 @@
 * This implementation is supposed to be used with normalized images (the input are pixels whose value is divided by 255).
 * For this reason, the output activation is a sigmoid.
 * All hidden layers have a relu activation (feel free to change it).
-* Autoencoder is a simple (deep) AE whose input is a 1D vector (flattened images).
-* ConvolutionalAutoencoder2D applies 2D convolution to multidimensional vectors (the input can be a gray image, an RGB image, or a series of images).
+* AE is a simple (deep) AE whose input is a 1D vector (flattened images).
+* CAE2 applies 2D convolution to multidimensional vectors (the input can be a gray image, an RGB image, or a series of images).
 * For convolutional AEe, the input has always to be reshaped to have 3 dims.
 * All AEe return 1) the low-dimensional (encoded) image given the original one, 2) return the reconstructed (decoded) image given the encoded one.
 '''
@@ -11,9 +11,6 @@
 import tensorflow as tf
 
 class AE:
-	'''
-	Autoencoder.
-	'''
 	def __init__(self, x, sizes, scope):
 		sizes = [x.get_shape().as_list()[-1]] + sizes
 		with tf.variable_scope(scope):
@@ -30,10 +27,9 @@ class AE:
 		self.vars = tf.trainable_variables(scope=scope)
 
 class CAE2:
-	'''
-	Convolutional autoencoder.
-	'''
 	def __init__(self, x, sizes, scope):
+		# sizes is a list of tuples (channel size, filter size 1, filter size 2)
+		# eg (128, 3, 3) corresponds to a layer with 128 filters of size 3x3
 		with tf.variable_scope(scope):
 			last_out = x
 			for l, (filters, rows, cols) in enumerate(sizes): # build encode layers
@@ -42,7 +38,7 @@ class CAE2:
 			self.encode = last_out
 			for l, (filters, rows, cols) in enumerate(reversed(sizes)): # build decode layers
 				last_out = tf.layers.conv2d(last_out, filters, (rows, cols), padding='same', activation=tf.nn.relu, name='decode_conv'+str(l))
-				last_out = tf.keras.layers.UpSampling2D(name='decode_maxpool'+str(l))(last_out) # tf.layers.up_sampling2d does not exist
+				last_out = tf.keras.layers.UpSampling2D(name='decode_upsamp'+str(l))(last_out) # tf.layers.up_sampling2d does not exist
 			last_out = tf.layers.conv2d(last_out, x.get_shape().as_list()[-1], (sizes[0][1], sizes[0][2]), padding='same', activation=tf.nn.sigmoid, name='decode_conv'+str(l+1))
 			self.decode = last_out
 		self.vars = tf.trainable_variables(scope=scope)
