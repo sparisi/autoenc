@@ -9,7 +9,7 @@ http://blog.keras.io/building-autoencoders-in-keras.html
 * ConvolutionalAutoencoder1D applies 1D convolution to 1D vector.
 * ConvolutionalAutoencoder2D applies 2D convolution to multidimensional vectors (the input can be a gray image, an RGB image, or a series of images).
 * For convolutional AEe, the input has always to be reshaped to have 3 dims.
-* Beside the default "predict" function, all AEe can 1) return the low-dimensional (encoded) image given the original one, 2) return the reconstructed (decoded) image given the encoded one.
+* Beside the default "predict" function, all return AEe 1) the low-dimensional (encoded) image given the original one, 2) the reconstructed (decoded) image given the encoded one.
 '''
 
 from keras.models import Model

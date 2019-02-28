@@ -1,26 +1,16 @@
-import os.path
-import sys
-
 import numpy as np
 import scipy.io as sio
 
 import matplotlib.pyplot as plt
 
-from autoencoder import *
-
-DATA_FOLDER = './'
-DATA_FILE = 'ae_test.mat'
-'''
-I, IG, h, w are variables with images (flattened), gray images, height and widht (484x644).
-In I2, IG2, h2, w2, images have been scaled and cropped to (64x64).
-'''
+from autoencoder_keras import *
 
 if __name__ == '__main__':
 
     mode = 'gray'
     mode = 'rgb'
 
-    data = sio.loadmat(os.path.join(DATA_FOLDER, DATA_FILE))
+    data = sio.loadmat('data.mat')
     h = np.asscalar(data['h2']) # height
     w = np.asscalar(data['w2']) # width
     X = data['I2'] if mode == 'rgb' else data['IG2']
@@ -81,15 +71,16 @@ if __name__ == '__main__':
     plt.show()
 
     # display final convolution
-    fig = plt.figure()
-    n_channels = 8
-    for i in range(0, n_channels):
-        ax = plt.subplot(1, n_channels, i+1)
-        plt.imshow(encoded_imgs[0][:,:,i]) # show channel
-        if mode == 'gray':
-            plt.gray()
-        plt.axis('off')
+    if autoenc_type == 'cae2':
+        fig = plt.figure()
+        n_channels = 8
+        for i in range(0, n_channels):
+            ax = plt.subplot(1, n_channels, i+1)
+            plt.imshow(encoded_imgs[0][:,:,i]) # show channel
+            if mode == 'gray':
+                plt.gray()
+            plt.axis('off')
 
-    plt.show()
+        plt.show()
 
     input("Press Enter to continue...")
