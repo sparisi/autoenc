@@ -1,5 +1,5 @@
 Simple implementation of (convolutional) autoencoders in Keras and Tensorflow.  
-The code is commented and pretty much-self explanatory.
+The code is commented and pretty much self-explanatory.
 
 Data stores
 * `I`: 1000 flattened images,
